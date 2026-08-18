@@ -16,7 +16,14 @@ import re, sys, json, glob, os
 # cover". The word "load-bearing" can have a correct literal use in
 # civil-engineering prose, but that use is out of scope for this
 # software-docs skill.
-SCORE_VERSION = 3
+# Score v4: a space inside a multi-word phrase now matches any whitespace, so
+# a phrase split across a line break counts. An unclosed code fence is now
+# stripped to the end of the text. "it is important to note" left the banned
+# list, because the modal-hedge list also holds it and one phrase counted
+# twice. The dedupe lowers the score of a file that quotes the phrase:
+# ste-writing-skill.md drops by 2 in both modes. The other two fixes move no
+# repo file score.
+SCORE_VERSION = 4
 
 MARKETING = ["seamless","seamlessly","robust","powerful","cutting-edge","effortless","effortlessly",
     "world-class","next-generation","revolutionary","blazing","lightning-fast","elegant","delightful",
@@ -29,7 +36,7 @@ BANNED = ["begin","begins","commence","commences","initiate","initiates","origin
     "demonstrate","demonstrates","additionally","furthermore","moreover","comprehensive","comprehensively",
     "utilization","aforementioned","henceforth","therein","whilst","amongst","numerous","myriad","plethora",
     "provide","provides","provided",
-    "in order to","a variety of","in the event that","due to the fact that","it is important to note",
+    "in order to","a variety of","in the event that","due to the fact that",
     "delve","delves","delving","tapestry","loadbearing","load-bearing","the honest truth"]
 # STE's own recurring-errors list (see ste-recurring-errors.md). Counted only
 # with --strict: these are correct STE but would flag normal prose in docs.
@@ -50,6 +57,8 @@ may might must should shall it its their your our his her they we you i""".split
 
 def strip_code(t):
     t = re.sub(r"```.*?```", " ", t, flags=re.S)
+    # an unclosed fence runs to the end of the text
+    t = re.sub(r"```.*", " ", t, flags=re.S)
     t = re.sub(r"`[^`]*`", " ", t)
     return t
 
@@ -74,7 +83,9 @@ def count_ci(text, phrases):
     n = 0; hits = []
     low = text.lower()
     for ph in phrases:
-        for m in re.finditer(r"(?<![a-z])" + re.escape(ph) + r"(?![a-z])", low):
+        # a space in a phrase matches any whitespace, so a wrapped line counts
+        pat = re.escape(ph).replace(r"\ ", r"\s+")
+        for m in re.finditer(r"(?<![a-z])" + pat + r"(?![a-z])", low):
             n += 1; hits.append(ph)
     return n, hits
 
