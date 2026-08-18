@@ -34,17 +34,17 @@ WORDS
 - Use one name for one thing (1.11, 9.4). Do not rotate check / verify / validate / confirm for the same action — pick one and reuse it. Certified STE uses "make sure" or "examine".
 - Use the short common word: start (not begin/commence/initiate), use (not utilize/leverage), help (not facilitate), make sure (not ensure/verify), do (not perform/conduct), give or supply (not provide), before (not prior to), after (not subsequent to), about (not regarding/concerning), get (not obtain/acquire), show (not demonstrate), also (not additionally/furthermore/moreover).
 - Give each word one meaning (1.3). "fall" means to move down, not to decrease.
-- No marketing adjectives: seamless, robust, powerful, cutting-edge, effortless, world-class, next-generation, revolutionary. Test any other word this way: if you cannot measure or test the praise, delete it.
+- No marketing adjectives: seamless, robust, powerful, cutting-edge, effortless, world-class, next-generation, revolutionary, streamlined. Test any other word this way: if you cannot measure or test the praise, delete it.
 - American spelling (1.14).
 
 VERBS
 - Active voice. "the parser reads the file", not "the file is read by the parser". Procedures: always. Descriptive text: passive is permitted only when the actor is unknown or irrelevant (3.6).
 - A past participle used as an adjective is not passive and is correct (3.3): "the valve is closed", "the field is required".
 - Only simple tenses (3.2): infinitive, imperative, simple present, simple past, simple future. No present perfect: "we received the report", never "we have received the report".
-- No stacked auxiliaries (3.4) and no hedge phrase: "it is important to note", "it should be noted", "it is worth noting", "please note that", "as mentioned", "as noted above". Write "this improves X", not "it is important to note that this may help to improve".
+- No stacked auxiliaries (3.4) and no hedge phrase: "it is important to note", "it should be noted", "it is worth noting", "please note that", "as mentioned", "as noted above", "worth stating plainly", "crucial to understand". Write "this improves X", not "it is important to note that this may help to improve".
 - Use a verb for an action (3.7): "analyze the log", not "perform an analysis of the log". Watch a noun that ends in -tion, -ment, -ance, or -ence before "of": change "the completion of the task" to "complete the task".
 - No "-ing" main verb where a simple tense works (3.5).
-- No phrasal verbs (9.3): spin up, dive into, kick off, roll out.
+- No phrasal verbs (9.3): spin up, dive into, kick off, roll out, look into.
 
 SENTENCES
 - One instruction per sentence, unless two actions happen at the same time (5.2). Max 20 words (instruction, 5.1), max 25 (descriptive, 6.3). Note: the checker in this skill flags any sentence over 20 words in both modes. It is stricter than the 25-word descriptive cap.

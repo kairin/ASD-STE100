@@ -11,6 +11,7 @@ the method shown in the video and source repo below.
 
 - Video: [The Cure for AI Slop](https://www.youtube.com/watch?v=uJblcC4lKYw&t=9s)
 - Source: [woosal1337/blog — videos/ep01-the-cure-for-ai-slop](https://github.com/woosal1337/blog/tree/main/videos/ep01-the-cure-for-ai-slop)
+- Video: [FIXING Opus 5](https://www.youtube.com/watch?v=S_QdQ1G4GlU), IndyDevDan. Source of the operational-boundary rules in the unified prompt.
 
 ## Why this works
 
@@ -54,6 +55,7 @@ group of readers who can read the text without error.
 | File | Purpose |
 |---|---|
 | `ste-writing-skill.md` | The skill definition (rules, modes, guards) |
+| `ste-senior-engineer-prompt.md` | Unified senior-engineer + ASD-STE100 system prompt |
 | `ste-recurring-errors.md` | ASD-STE100's own list of the 39 most common writer errors |
 | `ste-lint.py` | Heuristic anti-slop linter used to score drafts |
 | `experiment-results.md` | Cross-model experiment summary (Claude vs GPT) |
@@ -115,6 +117,18 @@ A fish function can wrap only the `claude` command it defines. It cannot
 reach a session an editor, a script, or a subagent starts through a
 different launcher. `~/.claude/CLAUDE.md` can, because Claude Code reads
 that file on every session, not only ones a fish function starts.
+
+## Unified senior-engineer prompt
+
+`ste-senior-engineer-prompt.md` is one system prompt. It merges the language rules of ASD-STE100 with the operational rules from the "Senior Opus" method by IndyDevDan. Those operational rules include scope containment, evidence-based completion, clean artifacts, reference codes, and the four aliases.
+
+Three routes exist to use this prompt. First, run `claude --append-system-prompt-file ste-senior-engineer-prompt.md`. Second, use the `claude-gw` wrapper and pass the same flag. The wrapper then skips its default append (`~/.claude/ste-system-append.md`). The wrapper only adds its default when the caller does not set that flag. Third, copy the file content into the system-prompt field of a different tool.
+
+The file must stay clean under its own check. Run `uv run ste-lint.py --strict ste-senior-engineer-prompt.md`. The score must be under 1.5 per 100 words.
+
+Lint score v3 added the vocabulary of the prompt to the checker. The checker now knows the `delve` family, `tapestry`, `loadbearing`, `load-bearing`, `the honest truth`, the `streamline` family, two hedge phrases, and the `look into` family. The em-dash count now skips code blocks and inline code. The checker change alone did not move the score of any repo file. The new example terms in `ste-writing-skill.md` raised the score of that file. The experiment numbers predate score v3, and the version notes in `ste-lint.py` record the history.
+
+The clean-artifacts rule of the prompt bans co-author tags in commits. A repo that keeps co-author trailers can remove the co-author words from that bullet. The watermark ban and the metadata ban then stay.
 
 ## Notes
 

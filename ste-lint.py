@@ -5,26 +5,40 @@ import re, sys, json, glob, os
 # banned list, adds a noun-train marker and a --strict mode. The episode's
 # published numbers were measured with score v1 (this file's git history at the
 # episode date); v1 and v2 totals are close but not directly comparable.
-SCORE_VERSION = 2
+# Score v3: adds slop terms (streamline family, delve family, tapestry,
+# loadbearing/load-bearing, "the honest truth") to the banned list, adds two
+# hedge phrases (worth stating plainly, crucial to understand) to the modal
+# hedge list, and adds the look-into family to the phrasal-verb list. The
+# em-dash count now reads the text after strip_code(), not the raw input, so
+# em dashes inside fenced code blocks and inline code no longer count. This
+# version does not add "take off" to the phrasal-verb list: the phrase has
+# too many correct literal uses in hardware steps, for example "take off the
+# cover". The word "load-bearing" can have a correct literal use in
+# civil-engineering prose, but that use is out of scope for this
+# software-docs skill.
+SCORE_VERSION = 3
 
 MARKETING = ["seamless","seamlessly","robust","powerful","cutting-edge","effortless","effortlessly",
     "world-class","next-generation","revolutionary","blazing","lightning-fast","elegant","delightful",
     "turnkey","best-in-class","state-of-the-art","game-changing","first-class","battle-tested",
-    "enterprise-grade","supercharge","unlock","unleash","empower","empowers"]
+    "enterprise-grade","supercharge","unlock","unleash","empower","empowers",
+    "streamline","streamlines","streamlined","streamlining"]
 BANNED = ["begin","begins","commence","commences","initiate","initiates","originate",
     "utilize","utilizes","utilizing","leverage","leverages","leveraging","facilitate","facilitates",
     "ensure","ensures","ensuring","prior to","subsequent to","obtain","obtains","acquire","acquires",
     "demonstrate","demonstrates","additionally","furthermore","moreover","comprehensive","comprehensively",
     "utilization","aforementioned","henceforth","therein","whilst","amongst","numerous","myriad","plethora",
     "provide","provides","provided",
-    "in order to","a variety of","in the event that","due to the fact that","it is important to note"]
+    "in order to","a variety of","in the event that","due to the fact that","it is important to note",
+    "delve","delves","delving","tapestry","loadbearing","load-bearing","the honest truth"]
 # STE's own recurring-errors list (see ste-recurring-errors.md). Counted only
 # with --strict: these are correct STE but would flag normal prose in docs.
 STRICT_BANNED = ["however","since","should","shall","using","follow","follows","followed"]
 PHRASAL = ["spin up","spin down","reach out","dive into","dives into","diving into","kick off","kicks off",
-    "roll out","rolls out","tear down","ramp up","circle back","drill down","spun up","reaching out"]
+    "roll out","rolls out","tear down","ramp up","circle back","drill down","spun up","reaching out",
+    "look into","looks into","looked into","looking into"]
 MODAL_HEDGE = ["it is important to note","it should be noted","it is worth noting","please note that",
-    "as mentioned","as noted above"]
+    "as mentioned","as noted above","worth stating plainly","crucial to understand"]
 BE = r"(?:am|is|are|was|were|be|been|being)"
 PP_IRREG = r"(?:done|made|sent|read|built|kept|held|set|put|run|written|shown|given|taken|found|got|gotten|seen|known|thrown|drawn)"
 # Rule 3.3: a past participle used as an adjective is not passive. These
@@ -104,7 +118,7 @@ def lint(text, strict=False):
     v["modal_hedge"], _ = count_ci(text, MODAL_HEDGE)
     paras = [p for p in re.split(r"\n\s*\n", raw) if p.strip()]
     v["long_paragraph(>6s)"] = sum(1 for p in paras if len(sentences(strip_code(p))) > 6)
-    em = raw.count("—") + raw.count("–")
+    em = text.count("—") + text.count("–")
     trains = noun_trains(text)
     if strict:
         n_strict, sh = count_ci(text, STRICT_BANNED)
