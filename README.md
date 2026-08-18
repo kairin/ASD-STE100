@@ -63,6 +63,40 @@ python3 ste-lint.py draft.md            # flavored target: under 2.5 per 100 wor
 python3 ste-lint.py --strict draft.md   # strict target: under 1.5 per 100 words
 ```
 
+## Global enforcement (fish + system prompt)
+
+The skill only fires when Claude Code judges a task matches its description.
+To make ASD-STE100 the default for every response in every session, this
+setup adds a standing instruction ahead of the skill, using two files outside
+this repo:
+
+1. **`~/.config/fish/functions/claude.fish`** — a fish wrapper function that
+   intercepts the `claude` command and appends a system-prompt file to every
+   invocation:
+
+   ```fish
+   function claude --wraps claude
+       command claude --append-system-prompt-file ~/.claude/system-append.md $argv
+   end
+   ```
+
+2. **`~/.claude/system-append.md`** — the file the wrapper appends. Its first
+   rule tells every session to write prose in ASD-STE100 and to use this
+   skill as the mechanism:
+
+   ```
+   1. LANGUAGE: Output tokens are precious. Write all prose in ASD-STE100
+      Simplified Technical English. Use the installed `ste-writing` skill
+      (`~/.claude/skills/ste-writing/`) to apply the rules and check drafts
+      with `ste-lint.py`.
+   ```
+
+Together, this means: the fish function guarantees the rule loads into the
+system prompt of every `claude` session, and the rule points at the skill
+installed from this repo (see [Install](#install)) as the ruleset and linter
+to use. The skill's own trigger (task-matched auto-invoke or `/ste-writing`)
+still applies on top of this for a full rewrite/review pass.
+
 ## Notes
 
 This is an unofficial, personal skill and is not affiliated with ASD. The
