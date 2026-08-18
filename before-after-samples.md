@@ -1,10 +1,4 @@
----
-project: youtube
-type: assets
-status: draft
-date: 2026-07-21
----
-# Real before/after samples (for on-screen use)
+# Real before/after samples
 
 Actual `claude-sonnet` outputs from the [experiment](experiment-results.md), same prompt, baseline system prompt vs the [ste-writing skill](ste-writing-skill.md). Scores are heuristic anti-slop violations per 100 words (lower is cleaner).
 

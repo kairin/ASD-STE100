@@ -1,0 +1,40 @@
+MIT License
+
+Copyright (c) 2026 kairin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to
+deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+## Notice on derived material
+
+This license covers the original code and prose in this repo. It does not
+cover two kinds of material this repo derives from other sources.
+
+The first kind is example data. `before-after-samples.md` and
+`experiment-results.md` hold samples and results built on the method shown
+in the video and source repo named in the README. Credit for that method
+goes to its author.
+
+The second kind is `ste-recurring-errors.md`. It restates a 39-item error
+list from ASD-STE100 Issue 9 as structured data, for use by the linter and
+skill in this repo.
+
+ASD-STE100 is a registered EU trademark (No. 017966390) of AeroSpace and
+Defence Industries Association of Europe (ASD). This repo does not own, and
+does not claim to own, the standard itself. The full standard is free to
+read at https://asd-ste100.org.

@@ -2,7 +2,7 @@
 
 First-party test: does forcing an LLM to write in ASD-STE100 reduce "AI slop"? 6 realistic engineer-writing tasks (README, PR description, API docs, error message, getting-started, deprecation) × 4 conditions (plain baseline, a banned-words list, Orwell's 6 rules, the STE skill), scored by a heuristic anti-slop linter at **violations per 100 words** (length-normalized). Lower is cleaner.
 
-Two model families, run the same way: **Claude sonnet** (via headless `claude -p`) and **OpenAI gpt-5.5** (via the API, `python3 run-openai.py` with `OPENAI_API_KEY` set).
+Two model families, run the same way: **Claude sonnet** (via headless `claude -p`) and **OpenAI gpt-5.5** (via the OpenAI API).
 
 ## Headline
 
@@ -24,7 +24,7 @@ Two model families, run the same way: **Claude sonnet** (via headless `claude -p
 - **The two models slop differently.** Claude's default slop is flashy — em-dashes (6), "seamless/robust", long run-ons. gpt-5.5's default has **zero em-dashes, zero semicolons, zero marketing adjectives**; its slop is subtler — long sentences, **passive voice** (its top category, 1.39/100w), and empty closers ("a practical foundation for intelligent response reuse"). STE cut passive voice least (still 0.66), so gpt-5.5 keeps some.
 - **On 1 of 6 tasks (API docs) STE scored slightly worse than baseline on gpt-5.5** (3.95 vs 3.54) — mostly the linter's long-paragraph heuristic penalizing STE's many short sentences.
 
-## Caveats (say them on camera)
+## Caveats
 
 - Heuristic linter, n=6, two models. Directional, not proof. Nobody had run *any* STE-vs-slop benchmark before, so this is the first data point, not the last word.
 - **per-100-words is noisy on very short outputs**: gpt-5.5 wrote 17–31-word deprecation notices, so a single violation reads as 8–12/100w. Trust the longer tasks more.
@@ -34,4 +34,4 @@ Two model families, run the same way: **Claude sonnet** (via headless `claude -p
 
 > Give the model a writing system and slop drops by half or more on every model I tried. STE was the best or tied-best. The popular move — banning words one at a time — is the least reliable: it did almost nothing on Claude and a fair amount on GPT, which is exactly what you'd expect from a fix that treats symptoms instead of giving the model a system.
 
-Reproduce: `run-openai.py` (OpenAI) and `scratchpad/ste/run.py` (Claude). Per-model detail: `experiment-results-openai.md`.
+This repo does not include the scripts used to run this experiment. Per-model detail: `experiment-results-openai.md`.
