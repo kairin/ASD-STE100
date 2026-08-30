@@ -106,17 +106,23 @@ uv run ste-lint.py --strict draft.md   # strict target: under 1.5 per 100 words
 The skill fires only when Claude Code judges a task matches its description.
 This setup also feeds the rule through two routes outside that trigger.
 
-1. **Gateway sessions.** The `claude-gw` wrapper (a separate dotfiles repo)
-   passes `--append-system-prompt-file` with `ste-system-append.md`, unless
-   the caller sets one already.
-2. **Every other route.** A plain `claude` command, an editor, a script, or
-   a subagent reads the rule from `~/.claude/CLAUDE.md`, which Claude Code
-   loads every session.
+1. **Every Claude Code session.** A `SessionStart` hook
+   (`ste-context.sh`, tracked in the `000-dotfiles` repo, installed by
+   `setup sync`) reads `~/.claude/ste-system-append.md` at the start of
+   every session and injects the rule as `additionalContext`. This route
+   does not depend on `CLAUDE.md`, a fish wrapper, or which command started
+   the session — it fires for a plain `claude` command, an editor, a
+   script, or a subagent alike.
+2. **Gateway sessions.** The `claude-gw` wrapper (in the same `000-dotfiles`
+   repo) also passes `--append-system-prompt-file` with the same
+   `ste-system-append.md`, unless the caller sets one already. A `claude-gw`
+   session gets the rule twice, through both routes. The text is identical,
+   so this does no harm.
 
-A fish function can wrap only the `claude` command it defines. It cannot
-reach a session an editor, a script, or a subagent starts through a
-different launcher. `~/.claude/CLAUDE.md` can, because Claude Code reads
-that file on every session, not only ones a fish function starts.
+**Verified 2026-08-20:** on a device that had never run `000-dotfiles`'
+`setup sync`, running it installed the `SessionStart` hook, and a fresh
+`claude -p` session confirmed the rule in its own context. See
+`000-dotfiles/docs/operations/ste-writing-setup.md` for the full test.
 
 ## Unified senior-engineer prompt
 
