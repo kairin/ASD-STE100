@@ -8,8 +8,8 @@ This repo holds the `ste-writing` skill and its supporting files. It follows
 the method shown in the video and source repo below.
 
 The skill is for Claude Code, Grok Build, Antigravity, Hermes, Pi, and Codex.
-On this owner machine, `000-dotfiles` delivers it to each of those CLIs that
-is installed.
+`000-dotfiles` installs those six CLIs as baseline tools and copies the skill
+to each one.
 
 ## References
 
@@ -77,7 +77,8 @@ This repo is the source of the skill, the checker, and the five-line rule.
 Author content here.
 
 On this owner machine, the supported install is the `000-dotfiles` setup
-command. It copies the skill to each installed coding-agent CLI:
+command. Option 1 installs the six coding-agent CLIs with each vendor's
+official curl script. Apply then copies the skill to those CLIs:
 
 ```bash
 ~/Apps/000-dotfiles/setup apply
@@ -126,8 +127,8 @@ a global-instruction surface.
 3. **Antigravity.** The global instruction file points at the skill and the
    five-line rule.
 
-Hermes, Pi, and Codex get the skill when that CLI is installed. They do not
-yet get a standing-rule file. Do not treat a missing CLI as a failed test.
+Hermes, Pi, and Codex get the skill (portable dest, plus the Hermes vendor
+dest). They do not yet get a standing-rule file. Do not invent a dest.
 
 The ops note in `000-dotfiles` records how to check the dests.
 
