@@ -1,50 +1,52 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: unfilled template → 1.0.0 (first ratification)
+- Modified principles: [PRINCIPLE_1_NAME] → I. Prose Rule; [PRINCIPLE_2_NAME] → II. Denylist Checker; [PRINCIPLE_3_NAME] → III. One Content Repo; [PRINCIPLE_4_NAME] → IV. Standing Rule; [PRINCIPLE_5_NAME] → V. Speckit Authors Specs
+- Added sections: Delivery Constraints; Development Workflow
+- Removed sections: none (placeholders replaced)
+- Follow-up TODOs: none
+-->
+# ASD-STE100 Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Prose Rule
+ASD-STE100 applies to prose: documentation, comments, pull-request text, error messages, release notes, tool descriptions, system prompts, and agent-to-agent messages. It MUST NOT apply to code, identifiers, or command syntax. A change that rewrites an identifier to satisfy a writing rule is a constitution violation.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Denylist Checker
+`ste-lint.py` is an anti-slop denylist. A lint pass is NOT Issue 9 conformance. The skill, README, and checker output MUST NOT claim the Issue 9 dictionary (875 approved words, 1274 unapproved words) unless the checker loads that dictionary. The 20-word checker cap MAY be stricter than rule 6.3. That gap MUST be stated where a reader will see it.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. One Content Repo
+This repository is the single source of the skill, the checker, the five-line rule, and the senior-engineer prompt. `000-dotfiles` delivers those files to the coding-agent harnesses this owner runs: Claude Code, Grok Build, Antigravity (`agy`), Hermes, Pi, and Codex. Skill files, the five-line rule, and README install steps MUST NOT hard-code one agent's home path (`~/.claude/`, `~/.grok/`, or any other). The checker command is `uv run ste-lint.py` next to the skill file the agent loaded.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Standing Rule
+Where a harness has a global-instruction surface that `000-dotfiles` can manage, the five-line rule MUST be injected there. The owner MUST NOT have to type a flag or invoke `/ste-writing` to get the rule on that harness. Skill auto-invoke is the floor on every harness. It is NOT a substitute for a global-instruction surface. A runtime test MUST NOT be claimed for a CLI that is not on the machine.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Speckit Authors Specs
+`spec.md`, `plan.md`, `tasks.md`, and `.specify/memory/constitution.md` MUST be written only by the `/speckit-*` commands installed in this project. Hand-authoring one of those files when a command exists for that step is a constitution violation.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Delivery Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+Supported install for this owner's machines is `000-dotfiles` `./setup apply` (or `sync`). A `ln -s` into one agent's skills directory is not the supported path. Manual clone of this repo is for authoring.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+`ste-recurring-errors.md` is a reference list. It is not linter input unless the checker reads that file.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Text taken from other authors MUST carry licence terms. This repo MUST NOT paste ASD-STE100 in full. ASD-STE100 is a registered EU trademark (No. 017966390). This repo is unofficial.
+
+## Development Workflow
+
+Python in this repo runs through `uv`. Bare `python` / `pip` is forbidden for project work.
+
+Never commit or push without an explicit instruction. Never commit directly to `main`. Use a `YYYYMMDD-HHMMSS` branch, then a pull request.
+
+A success criterion that names a checker score MUST be reproducible with the shipped `ste-lint.py` and the stated score version. An experiment table MUST say what it measured. It MUST NOT present checker-compliance as reader comprehension.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes skill text, README claims, and feature specs when they conflict. A spec that requires a dictionary claim the checker cannot keep MUST be rejected or the checker MUST load the dictionary in the same change.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Amendments: run `/speckit-constitution` with the new principle or the change. Bump **Version** (MAJOR for a removed or redefined principle, MINOR for a new principle, PATCH for a clarification). Set **Last Amended** to the amendment date. Record the change in the Sync Impact Report comment at the top of this file.
+
+Compliance: `/speckit-plan` and `/speckit-analyze` MUST load this file. A PR that changes the skill, the checker, the five-line rule, or the README MUST not introduce a path, install step, or dictionary claim that violates I–IV.
+
+**Version**: 1.0.0 | **Ratified**: 2026-09-06 | **Last Amended**: 2026-09-06

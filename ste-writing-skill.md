@@ -109,4 +109,6 @@ If you cannot run commands, use this checklist:
 
 The mechanical rules above are lintable and are what removes slop. Full STE also needs human judgment (the right technical noun, whether a sentence "makes good sense") — a checker cannot certify that, and slop is not about that. This skill fixes the FORM of slop. It cannot make a hollow paragraph true.
 
+The checker is an anti-slop denylist. A lint pass is not ASD-STE100 Issue 9 conformance. The checker does not load the approved dictionary.
+
 The full standard is free at https://asd-ste100.org (do not paste it in full; it is copyrighted). This skill is unofficial and not affiliated with ASD. ASD-STE100 is a registered EU trademark (No. 017966390).

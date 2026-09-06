@@ -1,10 +1,10 @@
 # STE experiment results — cross-model
 
-First-party test: does forcing an LLM to write in ASD-STE100 reduce "AI slop"? 6 realistic engineer-writing tasks (README, PR description, API docs, error message, getting-started, deprecation) × 4 conditions (plain baseline, a banned-words list, Orwell's 6 rules, the STE skill), scored by a heuristic anti-slop linter at **violations per 100 words** (length-normalized). Lower is cleaner.
+First-party test of checker-compliance, not reader comprehension. Six engineer-writing tasks (README, PR description, API docs, error message, getting-started, deprecation) × 4 conditions (plain baseline, a banned-words list, Orwell 6 rules, the STE skill). One generation per cell. Scored by this repo denylist at **violations per 100 words**. Lower is cleaner.
 
 Two model families, run the same way: **Claude sonnet** (via headless `claude -p`) and **OpenAI gpt-5.5** (via the OpenAI API).
 
-## Headline
+## Headline (checker-compliance, n=1 per cell)
 
 | Condition | Claude sonnet | gpt-5.5 |
 |---|---|---|
