@@ -31,8 +31,8 @@ in the video and source repo named in the README. Credit for that method
 goes to its author.
 
 The second kind is `ste-recurring-errors.md`. It restates a 39-item error
-list from ASD-STE100 Issue 9 as structured data, for use by the linter and
-skill in this repo.
+list from ASD-STE100 Issue 9 as a reference list for writers. The checker
+does not read that file.
 
 ASD-STE100 is a registered EU trademark (No. 017966390) of AeroSpace and
 Defence Industries Association of Europe (ASD). This repo does not own, and
