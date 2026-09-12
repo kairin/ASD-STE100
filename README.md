@@ -1,21 +1,21 @@
 # ASD-STE100 writing skill
 
 A skill that rewrites prose (docs, READMEs, PR descriptions, error
-messages, release notes, comments, tool descriptions, system prompts — never
+messages, release notes, comments, tool descriptions, system prompts. Never
 code) into ASD-STE100 Simplified Technical English, to remove "AI slop".
 
-This repo holds the `ste-writing` skill and its supporting files. It follows
-the method shown in the video and source repo below.
+This repository holds the `ste-writing` skill and its supporting files.
+It follows the method shown in the video and source repository below.
 
-The skill is for Claude Code, Grok Build, Antigravity, Hermes, Pi, and Codex.
-`000-dotfiles` installs those six CLIs as baseline tools and copies the skill
-to each one.
+The skill is for Hermes, Pi, OpenAI Codex CLI, and Google Antigravity (`agy`).
+The delivery map is in [docs/ste-delivery.md](docs/ste-delivery.md).
+The downstream delivery work is tracked in
+[ASD-STE100 issue #10](https://github.com/kairin/ASD-STE100/issues/10).
 
 ## References
 
 - Video: [The Cure for AI Slop](https://www.youtube.com/watch?v=uJblcC4lKYw&t=9s)
-- Source: [woosal1337/blog — videos/ep01-the-cure-for-ai-slop](https://github.com/woosal1337/blog/tree/main/videos/ep01-the-cure-for-ai-slop)
-- Video: [FIXING Opus 5](https://www.youtube.com/watch?v=S_QdQ1G4GlU), IndyDevDan. Source of the operational-boundary rules in the unified prompt.
+- Source: [woosal1337/blog, videos/ep01-the-cure-for-ai-slop](https://github.com/woosal1337/blog/tree/main/videos/ep01-the-cure-for-ai-slop)
 
 ## Why this works
 
@@ -45,14 +45,8 @@ first language was not English. A 2007 Microsoft Research study ran 520
 sentences through 4 languages. The largest single gain came from removing
 flowery, indirect text.
 
-The experiment in this repo (see [experiment-results.md](experiment-results.md))
-measured checker-compliance, not reader comprehension. On Claude sonnet the
-checker score fell 74 percent. The checker used a 20-word cap for that
-count. ASD-STE100 itself allows 25 words for descriptive sentences, so the
-checker is stricter than the standard.
-
-The checker is an anti-slop denylist. A lint pass is not ASD-STE100 Issue 9
-conformance. The checker does not load the approved dictionary.
+`ste-lint.py` is a denylist check, not full Issue 9 conformance. It does not
+load the approved dictionary.
 
 One caution: oversimplified text can slow reading for an expert reader
 who already knows the subject. STE trades some of that speed for a wider
@@ -66,37 +60,29 @@ group of readers who can read the text without error.
 | `ste-senior-engineer-prompt.md` | Unified senior-engineer + ASD-STE100 system prompt |
 | `ste-recurring-errors.md` | Reference list of the 39 most common writer errors in ASD-STE100 |
 | `ste-lint.py` | Heuristic anti-slop denylist used to score drafts |
-| `experiment-results.md` | Cross-model checker-compliance summary (Claude vs GPT) |
-| `experiment-results-openai.md` | Per-category checker results, OpenAI side |
-| `before-after-samples.md` | Real before/after output samples |
+| `docs/ste-delivery.md` | Canonical payload and destination map |
+| `scripts/check-ste-payload.sh` | Local source, package, destination, and purge checks |
 | `AGENTS.md` | Five-line standing rule for harnesses that read that file |
 
 ## Install
 
-This repo is the source of the skill, the checker, and the five-line rule.
-Author content here.
+This repository is the source of the five-file payload. Author content here.
 
-On this owner machine, the supported install is the `000-dotfiles` setup
-command. Option 1 installs the six coding-agent CLIs with each vendor's
-official curl script. Apply then copies the skill to those CLIs:
+The supported delivery path is the downstream setup command. It copies the
+automated package to the destinations in [docs/ste-delivery.md](docs/ste-delivery.md):
 
 ```bash
-~/Apps/000-dotfiles/setup apply
+setup apply
 ```
 
-`setup sync --yes` does the same apply step after it updates the machine
-profile. After apply, run the checker from this repo:
+After delivery, run the checker from this repository:
 
 ```bash
-cd ~/Apps/ASD-STE100
 uv run ste-lint.py README.md
 ```
 
-To refresh the copies that `000-dotfiles` vendors from this repo, run
-`~/Apps/000-dotfiles/scripts/sync-ste-writing.sh`, then apply again.
-
-A clone of this repo without `000-dotfiles` is for authoring. It is not the
-supported standing-rule install.
+The downstream repository owns packaging and installation. This repository
+does not write files in an agent home directory.
 
 ## Use
 
@@ -115,34 +101,26 @@ Run the same command next to the skill file the agent loaded.
 
 ## Standing rule outside the skill trigger
 
-The skill fires only when the agent judges a task matches its description.
-`000-dotfiles` also injects the five-line rule through each harness that has
-a global-instruction surface.
+The skill fires when a task matches its description. The downstream delivery
+system copies the three-file skill package to supported skill directories.
+The standing rule file remains manual.
 
-1. **Claude Code.** A SessionStart hook injects the five-line rule at the
-   start of every session. The `claude-gw` wrapper also appends that rule
-   unless the caller already set a system prompt.
-2. **Grok Build.** The same five-line rule is a user home rule, so a fresh
-   session loads it with no extra argument.
-3. **Antigravity.** The global instruction file points at the skill and the
-   five-line rule.
+1. **Hermes.** The package uses the portable and Hermes vendor destinations.
+2. **Pi.** The package uses the portable destination.
+3. **OpenAI Codex CLI.** The package uses the portable destination.
+4. **Google Antigravity (`agy`).** The package uses the portable and vendor
+   destinations.
 
-Hermes, Pi, and Codex get the skill (portable dest, plus the Hermes vendor
-dest). They do not yet get a standing-rule file. Do not invent a dest.
-
-The ops note in `000-dotfiles` records how to check the dests.
+The complete file map is in [docs/ste-delivery.md](docs/ste-delivery.md).
 
 ## Unified senior-engineer prompt
 
 `ste-senior-engineer-prompt.md` is one system prompt. It merges the language
-rules of ASD-STE100 with the operational rules from the "Senior Opus" method
-by IndyDevDan. Those operational rules include scope containment,
-evidence-based completion, clean artifacts, reference codes, and the four
-aliases.
+rules of ASD-STE100 with operational rules for scope containment,
+evidence-based completion, clean artifacts, reference codes, and four aliases.
 
-Pass the file with the agent system-prompt flag, or copy the content into
-the system-prompt field of a tool. If you pass that flag to `claude-gw`, the
-wrapper skips its default five-line append.
+Pass the file with the agent system-prompt option, or copy its content into
+the system-prompt field of a tool.
 
 The file must stay clean under its own check. Run
 `uv run ste-lint.py --strict ste-senior-engineer-prompt.md`. The score must
