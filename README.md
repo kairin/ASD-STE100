@@ -11,6 +11,17 @@ The skill is for Claude Code, Grok Build, Antigravity, Hermes, Pi, and Codex.
 `000-dotfiles` installs those six CLIs as baseline tools and copies the skill
 to each one.
 
+## Workspace layout
+
+This repository must live at `~/Apps/ASD-STE100`. Two sibling clones must also exist:
+
+- `~/Apps/000-dotfiles`
+- `~/Apps/tmux-cheat-sheet`
+
+If `000-dotfiles` is present, run `~/Apps/000-dotfiles/scripts/ensure-workspace-layout.sh`.
+That command creates `~/Apps/AGENTS.md`, `~/Apps/CLAUDE.md`, and `~/Apps/GEMINI.md`
+as symlinks to `~/Apps/000-dotfiles/AGENTS.md`.
+
 ## References
 
 - Video: [The Cure for AI Slop](https://www.youtube.com/watch?v=uJblcC4lKYw&t=9s)
