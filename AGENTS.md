@@ -19,9 +19,9 @@ Before any other work:
 3. If `~/Apps/000-dotfiles` exists, run `~/Apps/000-dotfiles/scripts/ensure-workspace-layout.sh`.
 4. If `000-dotfiles` does not exist, clone it first. Then run the command.
 
-The script creates `~/Apps/AGENTS.md`, `~/Apps/CLAUDE.md`, and `~/Apps/GEMINI.md` as symlinks to `~/Apps/000-dotfiles/AGENTS.md`.
+The script creates `~/Apps/AGENTS.md` and `~/Apps/GEMINI.md` as symlinks to `~/Apps/000-dotfiles/AGENTS.md`.
 
-`CLAUDE.md` and `GEMINI.md` in this repository are compatibility symlinks to this file.
+`GEMINI.md` in this repository is a compatibility symlink to this file.
 
 ## Writing rule
 

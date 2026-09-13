@@ -92,4 +92,4 @@ The generic policy source is `AGENTS.md` plus portable skills. Native adapter fi
 - OpenAI Codex
 - Google Antigravity (`agy`)
 
-No Claude-specific or Grok-specific configuration is part of this plan.
+No configuration for an unsupported tool is part of this plan.
