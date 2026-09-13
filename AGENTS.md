@@ -1,4 +1,4 @@
-# ASD-STE100 — agent guidelines
+# ASD-STE100 agent guidelines
 
 ## Workspace layout (read first)
 
@@ -33,6 +33,5 @@ The script creates `~/Apps/AGENTS.md`, `~/Apps/CLAUDE.md`, and `~/Apps/GEMINI.md
 
 The checker is an anti-slop denylist. A lint pass is not Issue 9 conformance.
 
-Source files live in this repository. On this owner's machines, `000-dotfiles`
-`./setup apply` delivers the skill to Claude Code, Grok Build, Antigravity,
-Hermes, Pi, and Codex when that CLI is installed.
+Source files live in this repository. A downstream delivery repository copies
+the skill to Hermes, Pi, OpenAI Codex CLI, and Google Antigravity (`agy`).
