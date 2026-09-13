@@ -31,13 +31,15 @@ automated_mappings=(
   "ste-recurring-errors.md:ste-recurring-errors.md"
 )
 
+rg -q --fixed-strings 'sync_one() {' "$sync_script"
+
 for mapping in "${automated_mappings[@]}"; do
   source_file="${mapping%%:*}"
   package_file="${mapping#*:}"
   test -f "$package_dir/$package_file"
   cmp -s "$repo_dir/$source_file" "$package_dir/$package_file"
   echo "source-package match: $source_file -> $package_file"
-  sync_line="refresh_one \"\$ASD_STE100_SRC/$source_file\" \"\$SKILL_DIR/$package_file\""
+  sync_line="sync_one \"\$ASD_STE100_SRC/$source_file\" \"\$SKILL_DIR/$package_file\""
   rg -q --fixed-strings "$sync_line" "$sync_script"
 done
 
@@ -47,7 +49,7 @@ manual_files=(
 )
 
 for source_file in "${manual_files[@]}"; do
-  sync_line="refresh_one \"\$ASD_STE100_SRC/$source_file\""
+  sync_line="sync_one \"\$ASD_STE100_SRC/$source_file\""
   if rg -q --fixed-strings "$sync_line" "$sync_script"; then
     echo "manual file is listed as automated: $source_file" >&2
     exit 1
