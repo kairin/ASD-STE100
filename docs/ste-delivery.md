@@ -47,7 +47,7 @@ Do not claim a runtime result for a tool that is not installed.
 
 ## Comparison checks
 
-Run the payload check from this repository:
+Run the full local payload check from this repository:
 
 ```bash
 DOTFILES_REPO=../000-dotfiles scripts/check-ste-payload.sh
@@ -60,3 +60,14 @@ The check also makes sure that the two manual files have no package copy.
 Set `STE_DELIVERY_HOME` when the destination home is not the current home.
 The check requires the portable destination when a preferred tool is installed.
 It requires a vendor destination only for an installed tool that uses one.
+
+The public CI workflow uses a self-contained mode:
+
+```bash
+STE_PAYLOAD_CI=1 bash scripts/check-ste-payload.sh
+```
+
+CI checks all five source files, the delivery mappings, the manual and
+automatic rules, the supported-tool claims, and the active purge checks. CI
+does not check the sibling `000-dotfiles` package or installed destinations.
+The full local mode keeps those cross-repository and machine checks.

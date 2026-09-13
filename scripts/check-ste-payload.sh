@@ -7,6 +7,7 @@ dotfiles_repo="${DOTFILES_REPO:-$repo_dir/../000-dotfiles}"
 delivery_home="${STE_DELIVERY_HOME:-$HOME}"
 sync_script="$dotfiles_repo/scripts/sync-ste-writing.sh"
 package_dir="$dotfiles_repo/skills/ste-writing"
+ci_mode="${STE_PAYLOAD_CI:-}"
 
 source_files=(
   "ste-writing-skill.md"
@@ -17,12 +18,23 @@ source_files=(
 )
 
 test -f "$delivery_doc"
-test -f "$sync_script"
-test -d "$package_dir"
+if test "$ci_mode" != 1; then
+  test -f "$sync_script"
+  test -d "$package_dir"
+fi
 
 for source_file in "${source_files[@]}"; do
   test -f "$repo_dir/$source_file"
   rg -q --fixed-strings "\`$source_file\`" "$delivery_doc"
+done
+
+for mapping in \
+  'ste-writing-skill.md` | `SKILL.md` | Automatic' \
+  'ste-lint.py` | `ste-lint.py` | Automatic' \
+  'ste-recurring-errors.md` | `ste-recurring-errors.md` | Automatic' \
+  'ste-system-append.md` | None | Manual' \
+  'ste-senior-engineer-prompt.md` | None | Manual'; do
+  rg -q --fixed-strings "$mapping" "$delivery_doc"
 done
 
 automated_mappings=(
@@ -31,17 +43,21 @@ automated_mappings=(
   "ste-recurring-errors.md:ste-recurring-errors.md"
 )
 
-rg -q --fixed-strings 'sync_one() {' "$sync_script"
+if test "$ci_mode" != 1; then
+  rg -q --fixed-strings 'sync_one() {' "$sync_script"
+fi
 
-for mapping in "${automated_mappings[@]}"; do
-  source_file="${mapping%%:*}"
-  package_file="${mapping#*:}"
-  test -f "$package_dir/$package_file"
-  cmp -s "$repo_dir/$source_file" "$package_dir/$package_file"
-  echo "source-package match: $source_file -> $package_file"
-  sync_line="sync_one \"\$ASD_STE100_SRC/$source_file\" \"\$SKILL_DIR/$package_file\""
-  rg -q --fixed-strings "$sync_line" "$sync_script"
-done
+if test "$ci_mode" != 1; then
+  for mapping in "${automated_mappings[@]}"; do
+    source_file="${mapping%%:*}"
+    package_file="${mapping#*:}"
+    test -f "$package_dir/$package_file"
+    cmp -s "$repo_dir/$source_file" "$package_dir/$package_file"
+    echo "source-package match: $source_file -> $package_file"
+    sync_line="sync_one \"\$ASD_STE100_SRC/$source_file\" \"\$SKILL_DIR/$package_file\""
+    rg -q --fixed-strings "$sync_line" "$sync_script"
+  done
+fi
 
 manual_files=(
   "ste-system-append.md"
@@ -50,7 +66,7 @@ manual_files=(
 
 for source_file in "${manual_files[@]}"; do
   sync_line="sync_one \"\$ASD_STE100_SRC/$source_file\""
-  if rg -q --fixed-strings "$sync_line" "$sync_script"; then
+  if test "$ci_mode" != 1 && rg -q --fixed-strings "$sync_line" "$sync_script"; then
     echo "manual file is listed as automated: $source_file" >&2
     exit 1
   fi
@@ -64,7 +80,7 @@ while IFS= read -r package_file; do
       exit 1
       ;;
   esac
-done < <(find "$package_dir" -type f -print)
+done < <(if test "$ci_mode" != 1; then find "$package_dir" -type f -print; fi)
 
 preferred_tool_found=false
 for tool_command in hermes pi codex agy; do
@@ -96,19 +112,19 @@ compare_destination() {
   done
 }
 
-if "$preferred_tool_found"; then
+if test "$ci_mode" != 1 && "$preferred_tool_found"; then
   compare_destination \
     "$delivery_home/.agents/skills/ste-writing" \
     "portable destination"
 fi
 
-if command -v hermes >/dev/null 2>&1; then
+if test "$ci_mode" != 1 && command -v hermes >/dev/null 2>&1; then
   compare_destination \
     "$delivery_home/.hermes/skills/ste-writing" \
     "Hermes destination"
 fi
 
-if command -v agy >/dev/null 2>&1; then
+if test "$ci_mode" != 1 && command -v agy >/dev/null 2>&1; then
   compare_destination \
     "$delivery_home/.gemini/config/skills/ste-writing" \
     "Antigravity destination"
