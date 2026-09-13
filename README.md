@@ -20,7 +20,7 @@ This repository must live at `~/Apps/ASD-STE100`. Two sibling clones must also e
 - `~/Apps/tmux-cheat-sheet`
 
 If `000-dotfiles` is present, run `~/Apps/000-dotfiles/scripts/ensure-workspace-layout.sh`.
-That command creates `~/Apps/AGENTS.md`, `~/Apps/CLAUDE.md`, and `~/Apps/GEMINI.md`
+That command creates `~/Apps/AGENTS.md` and `~/Apps/GEMINI.md`
 as symlinks to `~/Apps/000-dotfiles/AGENTS.md`.
 
 ## References
