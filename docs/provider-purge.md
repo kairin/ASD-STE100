@@ -1,6 +1,6 @@
 # Provider purge record
 
-This record supports ASD-STE100 issue #9.
+This record supports ASD-STE100 issues #9 and #12.
 It records each deleted path and its disposition.
 
 ## Scope
@@ -11,6 +11,27 @@ The approved tools are Hermes, Pi, OpenAI Codex CLI, and Google Antigravity (`ag
 
 The five payload files stay in the repository.
 Issue #10 controls their content and delivery checks.
+
+## Issue #12 review
+
+Issue #12 reviewed the current 20-path purge snapshot. The retained files are
+active documentation. They define the current writing rules and delivery
+scope.
+
+- `.specify/memory/constitution.md`
+- `AGENTS.md`
+- `ste-senior-engineer-prompt.md`
+- `ste-writing-skill.md`
+
+The three experiment and sample files below are historical evidence. They
+describe retired provider comparisons. The 13 files below `specs/` are
+obsolete specifications. They describe shipped or replaced work. The current
+source files define the supported payload. This record gives the deletion
+provenance.
+
+The review found no secret values or owner-specific paths in the retained
+active documentation. The repository keeps the deleted-path lists below as
+the deletion provenance.
 
 ## Deleted experiment files
 

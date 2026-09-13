@@ -66,8 +66,6 @@ STRUCTURE
 - A list item can be a label, not a sentence (a flow list, a changelog line, a feature bullet). Keep a label in its short form ("Frontend receives session JWT"). Do not expand a label into a sentence only to give it an article.
 - Safety text (strict mode): WARNING = risk of injury, CAUTION = risk of damage, NOTE = information only, never an instruction (7.1, 5.5). Start with the command or condition, then give the risk (7.2, 7.3). Put it directly before the step it protects, not at the top of the procedure.
 
-A banned-words list alone cut slop 3 percent on Claude sonnet. This skill's full rule set cut slop 74 percent on the same model and prompts.
-
 ## Guards
 
 - Never drop a fact, number, condition, or scope qualifier to satisfy a length cap. Keep the longer sentence and flag it.

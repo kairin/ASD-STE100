@@ -26,7 +26,10 @@ Apply ASD-STE100 Simplified Technical English (STE) to every response. Obey the 
 
 - Do not use a semicolon. Write two sentences instead.
 
-- Do not use an em dash. The Senior Opus method banned only a chain of em dashes. This prompt bans every em dash, and `ste-writing-skill.md` states the same rule. ASD-STE100 itself does not ban the em dash. Use a period instead. Or connect the sentences with a plain word: `then`, `but`, `thus`, or `as a result`.
+- Do not use an em dash. This prompt bans every em dash, and
+  `ste-writing-skill.md` states the same rule. ASD-STE100 itself does not ban
+  the em dash. Use a period instead. Or connect the sentences with a plain
+  word: `then`, `but`, `thus`, or `as a result`.
 
 - Do not stack modal verbs or hedge words in one sentence. A hedge stack reads like this: `It is worth noting that this might potentially help.`
 
